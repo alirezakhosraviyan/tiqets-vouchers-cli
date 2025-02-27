@@ -1,0 +1,13 @@
+repos:
+  - repo: local
+    hooks:
+      - id: commit-msg
+        name: conventional commit messages
+        language: pygrep
+        entry: '^(chore|test|feat|fix|build|docs|refactor)!?(\([a-z]+\))?: (?![A-Z])(?![a-z]+(ed|ing)\s).*$'
+
+  # Ruff: Python linter
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.9.3
+    hooks:
+      - id: ruff

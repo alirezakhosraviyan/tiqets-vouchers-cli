@@ -1,0 +1,94 @@
+[tool.poetry]
+name = "vouchers_cli"
+version = "0.1.0"
+description = "Tiqets Assignment"
+authors = ["alireza <alireza.infotech@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+pydantic-settings = "^2.7.1"
+aiofiles = "^24.1.0"
+httpx = "^0.28.1"
+
+[tool.poetry.scripts]
+tiqets-vouchers = "vouchers_cli.main:entry"
+
+
+######################## Build Tools ########################
+[build-system]
+requires = ["poetry-core", "poetry-dynamic-versioning"]
+build-backend = "poetry_dynamic_versioning.backend"
+
+[project]
+dynamic = ["version"]
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "pep440"
+bump= true
+
+######################## Tests ########################
+[tool.poetry.group.test.dependencies]
+pytest-asyncio = "^0.25.2"
+pytest = "^8.3.4"
+pytest-cov = "^6.0.0"
+
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+asyncio_mode = "auto"
+addopts = "--cov --cov-report html --cov-report term -v --cov-fail-under=95 ."
+asyncio_default_fixture_loop_scope = "session"
+pythonpath = ["vouchers_cli"]
+testpaths = ["tests"]
+
+
+######################## Code Quality ########################
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.14.1"
+ruff = "^0.9.3"
+pre-commit = "^4.1.0"
+bandit = "^1.8.2"
+
+[tool.ruff]
+target-version = "py313"
+line-length = 88
+
+[tool.ruff.lint]
+exclude = [
+    ".git",
+    "build",
+    "dist",
+]
+select = [
+    "E",  # Pycodestyle errors
+    "F",  # Pyflakes errors
+    "I",  # Import formatting (isort rules)
+    "B",  # Bugbear rules for common errors
+    "C",  # Complexity issues
+    "A",  # Best practices for Python code
+]
+# Enabling autofix for import sorting
+extend-select = ["I"]
+
+
+[tool.mypy]
+python_version = "3.13"
+ignore_missing_imports = true
+strict = true
+check_untyped_defs = true
+disallow_untyped_calls = false
+disallow_untyped_defs = true
+warn_unused_ignores = true
+warn_unreachable = true
+follow_untyped_imports = true
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+
+[tool.coverage.run]
+omit = [
+    "tests/*",  # Ignore test files
+]
