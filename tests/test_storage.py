@@ -1,3 +1,5 @@
+import asyncio
+
 from vouchers_cli.storage import OrderStorage
 
 
@@ -6,7 +8,7 @@ async def test_store_order() -> None:
     Test the store_order method to ensure orders are correctly mapped to customers.
     """
     order_storage = OrderStorage()
-    order_storage.store_order(1, 100)
+    await order_storage.store_order(1, 100)
 
     assert order_storage.orders_to_customers[1] == 100
 
@@ -18,8 +20,8 @@ async def test_store_barcode_with_valid_order() -> None:
     """
     order_storage = OrderStorage()
 
-    order_storage.store_order(1, 100)
-    order_storage.store_barcode("barcode123", "1")
+    await order_storage.store_order(1, 100)
+    await order_storage.store_barcode("barcode123", "1")
 
     assert "barcode123" in order_storage.customer_to_barcodes[(1, 100)]
 
@@ -32,7 +34,7 @@ async def test_store_barcode_with_no_order() -> None:
     order_storage = OrderStorage()
 
     # Store a barcode with no valid order_id
-    order_storage.store_barcode("barcode123", "")
+    await order_storage.store_barcode("barcode123", "")
 
     assert "barcode123" in order_storage.unused_barcodes
 
@@ -45,13 +47,13 @@ async def test_store_barcode_with_already_used_barcode() -> None:
     order_storage = OrderStorage()
 
     # Store an order
-    order_storage.store_order(1, 100)
+    await order_storage.store_order(1, 100)
 
     # Store a barcode for the order
-    order_storage.store_barcode("barcode123", "1")
+    await order_storage.store_barcode("barcode123", "1")
 
     # Try storing the same barcode again
-    order_storage.store_barcode("barcode123", "1")
+    await order_storage.store_barcode("barcode123", "1")
 
     # Assert the barcode is not added again
     assert order_storage.customer_to_barcodes[(1, 100)].count("barcode123") == 1
@@ -64,8 +66,8 @@ async def test_unused_barcodes_set() -> None:
     order_storage = OrderStorage()
 
     # Store barcodes with no order
-    order_storage.store_barcode("barcode123", "")
-    order_storage.store_barcode("barcode456", "")
+    await order_storage.store_barcode("barcode123", "")
+    await order_storage.store_barcode("barcode456", "")
 
     assert "barcode123" in order_storage.unused_barcodes
     assert "barcode456" in order_storage.unused_barcodes
@@ -78,10 +80,29 @@ async def test_used_barcodes_set() -> None:
     order_storage = OrderStorage()
 
     # Store an order
-    order_storage.store_order(1, 100)
+    await order_storage.store_order(1, 100)
 
     # Store a barcode for the order
-    order_storage.store_barcode("barcode123", "1")
+    await order_storage.store_barcode("barcode123", "1")
 
     # Assert that the barcode is in the used barcodes set
     assert "barcode123" in order_storage.used_barcodes
+
+
+async def test_locking_in_storage() -> None:
+    """
+    Test that concurrent access to storage is properly locked.
+    Ensures that data is not overwritten or accessed simultaneously.
+    """
+    order_storage = OrderStorage()
+
+    async def store_data_concurrently() -> None:
+        await order_storage.store_order(1, 100)
+        await order_storage.store_barcode("barcode123", "1")
+
+    # Run two tasks concurrently to simulate race conditions
+    await asyncio.gather(store_data_concurrently(), store_data_concurrently())
+
+    # Assert that the order is stored correctly without race conditions
+    assert order_storage.orders_to_customers[1] == 100
+    assert "barcode123" in order_storage.customer_to_barcodes[(1, 100)]

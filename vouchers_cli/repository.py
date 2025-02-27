@@ -52,11 +52,13 @@ class Repository:
             self._reader.read_csv(self._barcodes_file_path),
         )
 
+        # Store orders in storage asynchronously
         for order_id, customer_id in orders:
-            self._storage.store_order(int(order_id), int(customer_id))
+            await self._storage.store_order(int(order_id), int(customer_id))
 
+        # Store barcodes in storage asynchronously
         for barcode, order_id in barcodes:
-            self._storage.store_barcode(barcode, order_id)
+            await self._storage.store_barcode(barcode, order_id)
 
         self._loaded = True
 
@@ -67,7 +69,7 @@ class Repository:
         :return: Dictionary mapping order-customer pairs to lists of barcodes.
         """
         await self._load_data()
-        return self._storage.customer_to_barcodes
+        return await self._storage.get_vouchers()
 
     async def get_unused_barcodes(self) -> set[str]:
         """
@@ -76,7 +78,7 @@ class Repository:
         :return: Set of unused barcode strings.
         """
         await self._load_data()
-        return self._storage.unused_barcodes
+        return await self._storage.get_unused_barcodes()
 
     async def get_top_customers(self) -> list[tuple[int, int]]:
         """
