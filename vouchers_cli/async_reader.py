@@ -17,9 +17,6 @@ class FileReader(Protocol):
         """
         Asynchronously read a CSV file and return its contents as
         an iterable of string lists.
-
-        :param file_path: The path to the CSV file.
-        :return: An iterable containing lists of strings, representing the CSV rows.
         """
         ...
 
@@ -32,8 +29,6 @@ class AsyncCSVReader:
     def __init__(self, logger: Logger):
         """
         Initialize the CSV reader with a logger.
-
-        :param logger: Logger instance for logging messages.
         """
         self._logger = logger
 
@@ -41,10 +36,6 @@ class AsyncCSVReader:
         """
         Read a CSV file asynchronously and return its contents as
         an iterable of string lists.
-
-        :param file_path: The path to the CSV file.
-        :return: An iterable containing lists of strings,
-        representing the CSV rows.
         """
         self._logger.debug(f"Reading from {file_path}")
         try:

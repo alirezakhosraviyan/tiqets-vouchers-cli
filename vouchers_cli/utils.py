@@ -8,17 +8,6 @@ from pathlib import Path
 def setup_logger(name: str, log_level: int = logging.INFO) -> logging.Logger:
     """
     Sets up and returns a logger with the specified name and log level.
-
-    Args:
-        name (str): The name of the logger.
-        log_level (int, optional): The logging level (default is logging.INFO).
-
-    Returns:
-        logging.Logger: A logger instance with the specified settings.
-
-    Example:
-        logger = setup_logger("my_app", logging.DEBUG)
-        logger.info("This is an info message.")
     """
     logger = logging.getLogger(name)
     logger.setLevel(log_level)

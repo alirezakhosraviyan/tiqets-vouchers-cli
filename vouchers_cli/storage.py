@@ -24,10 +24,6 @@ class OrderStorage:
     async def store_order(self, order_id: int, customer_id: int) -> None:
         """
         Store an order and associate it with a customer, with async-safe access.
-
-        Args:
-            order_id (int): The unique identifier for the order.
-            customer_id (int): The unique identifier for the customer.
         """
         async with self._lock:
             self.orders_to_customers[order_id] = customer_id
@@ -36,10 +32,6 @@ class OrderStorage:
         """
         Store a barcode and associate it with an order and customer
         if applicable, with async-safe access.
-
-        Args:
-            barcode (str): The barcode to be stored.
-            order_id (str): The order ID associated with the barcode.
         """
         async with self._lock:
             # If the barcode has already been used, don't store it again
@@ -66,9 +58,6 @@ class OrderStorage:
         """
         Retrieve a mapping of (order_id, customer_id) to barcodes,
         with async-safe access.
-
-        :return: Dictionary mapping order-customer pairs to
-        lists of barcodes.
         """
         async with self._lock:
             return self.customer_to_barcodes
@@ -77,8 +66,6 @@ class OrderStorage:
         """
         Retrieve unused barcodes that are not associated with any orders,
         with async-safe access.
-
-        :return: Set of unused barcode strings.
         """
         async with self._lock:
             return self.unused_barcodes

@@ -19,8 +19,7 @@ HashMap and Set for Fast Lookups and Guarantee uniqueness
 Used locks to be async-safe
 
 ## Room for Improvements (out of scope)
-- file can be loaded in batches to avoid loading entire file into memory
-- 
+- file can be loaded in batch to avoid loading entire file into memory
 
 ## DataBase Storage Strategy
 

@@ -55,15 +55,6 @@ class ExtractorConfig(BaseModel):
     def validate_file_exists(cls, file_path: Path) -> Path:
         """
         Validates that the provided file paths exist and are in CSV format.
-
-        Args:
-            file_path (Path): The file path to be validated.
-
-        Raises:
-            ValueError: If the file does not exist or if it's not a CSV file.
-
-        Returns:
-            Path: The validated file path.
         """
         # Check if the file exists
         if not file_path.exists():
