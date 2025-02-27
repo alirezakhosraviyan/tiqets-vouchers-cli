@@ -33,7 +33,7 @@ class VouchersExtractor:
         Factory method to create an instance of VouchersExtractor.
         """
         async_reader = AsyncCSVReader(logger)
-        storage = OrderStorage()
+        storage = OrderStorage(logger)
         repository = Repository(
             configs.orders_file_path,
             configs.barcodes_file_path,

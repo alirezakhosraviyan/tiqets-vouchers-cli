@@ -1,5 +1,6 @@
 import asyncio
 from collections import defaultdict
+from logging import Logger
 
 
 class OrderStorage:
@@ -8,11 +9,13 @@ class OrderStorage:
     and barcodes in an async-safe manner.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, logger: Logger) -> None:
         """
         Initializes the OrderStorage object with empty mappings for
         orders, customers, and barcodes, and a lock for async-safety.
         """
+        self._logger = logger
+
         self.orders_to_customers: dict[int, int] = {}  # order_id -> customer_id
         self.customer_to_barcodes: dict[tuple[int, int], list[str]] = defaultdict(list)
         self.unused_barcodes: set[str] = set()
@@ -35,7 +38,8 @@ class OrderStorage:
         """
         async with self._lock:
             # If the barcode has already been used, don't store it again
-            if barcode in self.used_barcodes:
+            if barcode in self.used_barcodes or barcode in self.unused_barcodes:
+                self._logger.error(f"Duplicate barcode: {barcode}")
                 return
 
             # If no valid order_id is provided, mark the barcode as unused

@@ -114,9 +114,9 @@ def output_schema() -> OutputSchema:
 
 
 @pytest.fixture
-def mock_storage() -> OrderStorage:
+def mock_storage(mock_logger: Logger) -> OrderStorage:
     """Provides a fresh instance of OrderStorage."""
-    return OrderStorage()
+    return OrderStorage(mock_logger)
 
 
 @pytest.fixture
