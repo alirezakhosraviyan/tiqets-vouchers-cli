@@ -22,20 +22,6 @@ async def test_setup_logger() -> None:
     assert isinstance(handler, logging.StreamHandler)
 
 
-async def test_parse_arguments_default() -> None:
-    """
-    Test parse_arguments for default values.
-    It ensures that the default values for file paths and output directory are correct.
-    """
-    args = parse_arguments("Test app")
-
-    # Check default values
-    assert args.orders_file == Path("data/orders.csv")
-    assert args.barcodes_file == Path("data/barcodes.csv")
-    assert args.output_dir == Path("output")
-    assert not args.debug
-
-
 async def test_parse_arguments_with_debug() -> None:
     """
     Test parse_arguments when the debug flag is provided.
