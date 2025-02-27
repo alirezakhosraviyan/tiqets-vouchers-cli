@@ -46,7 +46,6 @@ COPY --from=builder /home/tiqets/requirements.txt /home/tiqets/requirements.txt
 RUN pip install --no-cache-dir -r /home/tiqets/requirements.txt
 RUN pip install --no-cache-dir /home/tiqets/dist/*.whl
 
-# Expose the production environment variables
 ENV PYTHONUNBUFFERED=1
 
 # Default production command
@@ -68,5 +67,4 @@ COPY . .
 RUN poetry config virtualenvs.create false \
     && poetry install --with dev,test --no-interaction --no-ansi
 
-# Expose dev environment variables
 ENV PYTHONUNBUFFERED=1

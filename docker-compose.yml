@@ -1,0 +1,9 @@
+services:
+  tiqets-voucher:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "poetry run tiqets-vouchers --orders-file=data/orders.csv --barcodes-file=data/barcodes.csv --output-dir=output"
+    volumes:
+      - ./output:/home/tiqets/output
+      - ./data:/home/tiqets/data

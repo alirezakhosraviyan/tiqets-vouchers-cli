@@ -10,7 +10,7 @@ install:
 	poetry install
 
 test:
-	poetry run pytest --cov-report term-missing
+	poetry run pytest
 
 lint:
 	poetry run ruff format .
