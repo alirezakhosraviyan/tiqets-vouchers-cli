@@ -112,8 +112,6 @@ class FileWriter(AsyncWriter):
     async def write(self, output: OutputSchema) -> None:
         """
         Write the serialized output data to a file asynchronously.
-
-        :param output: The output data to be written.
         """
         filename = self._get_file_name()
 

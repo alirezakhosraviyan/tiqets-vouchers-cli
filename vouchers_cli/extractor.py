@@ -22,10 +22,6 @@ class VouchersExtractor:
     ):
         """
         Initialize the VouchersExtractor with necessary dependencies.
-
-        :param logger: Logger instance for logging messages.
-        :param repository: Repository instance for fetching voucher data.
-        :param writers: List of writer instances for outputting data.
         """
         self._logger = logger
         self._repository = repository
@@ -35,10 +31,6 @@ class VouchersExtractor:
     def create(cls, configs: ExtractorConfig, logger: Logger) -> "VouchersExtractor":
         """
         Factory method to create an instance of VouchersExtractor.
-
-        :param configs: Configuration containing file paths and output directory.
-        :param logger: Logger instance for logging messages.
-        :return: An instance of VouchersExtractor.
         """
         async_reader = AsyncCSVReader(logger)
         storage = OrderStorage()
@@ -57,8 +49,6 @@ class VouchersExtractor:
     async def _extract_data(self) -> OutputSchema:
         """
         Extracts voucher-related data from the repository.
-
-        :return: An OutputSchema instance containing extracted data.
         """
         vouchers = [
             VoucherSchema(

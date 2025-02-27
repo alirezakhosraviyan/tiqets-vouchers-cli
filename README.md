@@ -19,8 +19,7 @@ HashMap and Set for Fast Lookups and Guarantee uniqueness
 Used locks to be async-safe
 
 ## Room for Improvements (out of scope)
-- file can be loaded in batches to avoid loading entire file into memory
-- 
+- file can be loaded in batch to avoid loading entire file into memory
 
 ## DataBase Storage Strategy
 
@@ -84,7 +83,15 @@ Clone the project
 ```bash
   cd tiqets-vouchers-cli
 ```
-Get into docker container
+Quick Run (with default values):
+
+- you can check the output in output folder (`cd output`)
+- you can change the input in data folder (`cd data`)
+```bash
+  docker-compose up
+```
+---
+(Advanced) Get into docker container
 
 ```bash
   docker build -t tiqets-vouchers:dev --target development . && docker run --rm -it -v ./data:/home/tiqets/input -v ./output:/home/tiqets/output tiqets-vouchers:dev /bin/sh

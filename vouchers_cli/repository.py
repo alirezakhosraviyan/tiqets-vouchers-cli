@@ -83,8 +83,6 @@ class Repository:
     async def get_top_customers(self) -> list[tuple[int, int]]:
         """
         Retrieve the top 5 customers based on the number of orders placed.
-
-        :return: List of tuples containing customer ID and order count.
         """
         await self._load_data()
         customer_order_count = Counter(self._storage.orders_to_customers.values())
