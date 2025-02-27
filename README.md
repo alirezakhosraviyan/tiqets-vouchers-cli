@@ -21,7 +21,7 @@ Used locks to be async-safe
 ## Room for Improvements (out of scope)
 - file can be loaded in batch to avoid loading entire file into memory
 
-## DataBase Storage Strategy
+## DataBase Storage Strategy (for future)
 
 ### requirements:
 
@@ -35,7 +35,7 @@ Used locks to be async-safe
   - Horizontal scalable
   - why? for special events or seasonal requirements like Christmas or summer events we need to be able to scale system horizontally
 
-## Approaches
+## Approach for DataBase
 PostgreSQL is an excellent choice for this system because it provides strong consistency, complex query capabilities, and horizontal scalability while ensuring data integrity.
 
 - ✅ Strong Consistency for Orders 
